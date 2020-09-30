@@ -16,7 +16,7 @@ public class Reiziger {
     private Date geboortedatum;
     @OneToOne(mappedBy = "reiziger")
     private Adres adres;
-    @Transient
+    @OneToMany(mappedBy = "reiziger")
     private List<OVChipkaart> chipKaarten;
 
     public Reiziger(int id, String voorletters, String tussenvoegsel, String achternaam, Date geboortedatum) {

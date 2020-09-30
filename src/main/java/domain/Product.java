@@ -2,6 +2,7 @@ package domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Product {
     private String naam;
     private String beschrijving;
     private double prijs;
-    @Transient
+    @ManyToMany(mappedBy = "producten")
     private List<OVChipkaart> ovkaarten = new ArrayList<>();
 
     public Product(int product_nummer, String naam, String beschrijving, double prijs) {

@@ -1,1 +1,3 @@
-/src/main/java/domain/OVChipkaart.java
+.idea/
+target/
+test/

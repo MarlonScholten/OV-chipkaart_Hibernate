@@ -1,9 +1,6 @@
 package domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,9 +13,10 @@ public class OVChipkaart {
     private Date geldig_tot;
     private int klasse;
     private double saldo;
-    @Transient
+    @ManyToOne
+    @JoinColumn(name="reiziger_id")
     private Reiziger reiziger;
-    @Transient
+    @ManyToMany
     private List<Product> producten = new ArrayList<>();
 
     public OVChipkaart(int kaart_nummer, Date geldig_tot, int klasse, double saldo, Reiziger reiziger) {
