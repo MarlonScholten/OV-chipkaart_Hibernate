@@ -1,3 +1,6 @@
+import DAOHibernate.ReizigerDAOHibernate;
+import DAOInterfaces.ReizigerDAO;
+import domain.Reiziger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,6 +10,7 @@ import org.hibernate.query.Query;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Testklasse - deze klasse test alle andere klassen in deze package.
@@ -39,7 +43,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws SQLException {
-        testFetchAll();
+//        testFetchAll();
+        testDAOHibernate();
     }
 
     /**
@@ -61,5 +66,33 @@ public class Main {
         } finally {
             session.close();
         }
+    }
+
+    private static void testDAOHibernate(){
+        Session session = getSession();
+        ReizigerDAO rdao = new ReizigerDAOHibernate(session);
+
+        // Test ReizigerDAO.findAll()
+        System.out.println("[Test] ReizigerDAO.findAll()");
+        List<Reiziger> reizigers = rdao.findAll();
+        for(Reiziger r : reizigers){
+            System.out.println(r);
+        }
+        System.out.println();
+
+        // Test ReizigerDAO.findByGbdatum()
+        System.out.println("[Test] ReizigerDAO.findByGbdatum(2002-10-22)");
+        List<Reiziger> reizigersGbdatum = rdao.findByGbdatum("2002-10-22");
+        for(Reiziger r : reizigersGbdatum){
+            System.out.println(r);
+        }
+        System.out.println();
+
+        // Test ReizigerDAO.findById()
+        System.out.println("[Test] ReizigerDAO.findById(1)");
+        System.out.println(rdao.findById(1));
+        System.out.println();
+
+        session.close();
     }
 }
