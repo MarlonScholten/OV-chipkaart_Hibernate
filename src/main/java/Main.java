@@ -94,6 +94,7 @@ public class Main {
         testAdresDAOHibernate(adao);
         testOVChipkaartDAOHibernate(odao);
         testProductDAOHibernate(pdao);
+        testOVkaartProductRelatie(pdao,odao);
 
         session.close();
     }
@@ -221,7 +222,7 @@ public class Main {
         odao.update(ovkaart);
         System.out.println("Kaart gegevens na update:\n"+ovkaart.toString()+"\n");
 
-        // Verwijder eerder gemaakte adres uit de database
+        // Verwijder eerder gemaakte kaart uit de database
         System.out.print("[Test] Eerst " + kaarten.size() + " kaarten, na OVChipkaart.delete() ");
         odao.delete(ovkaart);
         kaarten = odao.findAll();
@@ -254,6 +255,47 @@ public class Main {
 
         // Verwijder eerder gemaakt product
         System.out.print("[Test] Eerst " + producten.size() + " producten, na ProductDAO.delete() ");
+        pdao.delete(p1);
+        producten = pdao.findAll();
+        System.out.println(producten.size() + " producten\n");
+    }
+
+    private static void testOVkaartProductRelatie(ProductDAO pdao, OVChipkaartDAO odao){
+        System.out.println("Geef alle producten van kaart 35283");
+        System.out.println(pdao.findByOVChipkaart(odao.findByKaartNummer(35283)));
+        System.out.println(pdao.findByOVChipkaart(odao.findByKaartNummer(35283)).size()+" producten");
+        System.out.println();
+
+        System.out.println("Voeg een product toe aan de db");
+        List<Product> producten = pdao.findAll();
+        System.out.print("Eerst " + producten.size() + " producten, na ProductDAO.save() ");
+        Product p1 = new Product(7,"Senioren","Gratis of met korting reizen voor 60-plussers",5.00);
+        pdao.save(p1);
+        producten = pdao.findAll();
+        System.out.println(producten.size() + " producten\n");
+
+        System.out.println("Voeg het nieuwe product toe aan 35283");
+        odao.findByKaartNummer(35283).addProduct(p1);
+        OVChipkaart target = odao.findByKaartNummer(35283);
+        odao.update(target);
+        System.out.println();
+
+        System.out.println("Geef alle producten van kaart 35283");
+        System.out.println(pdao.findByOVChipkaart(odao.findByKaartNummer(35283)));
+        System.out.println(pdao.findByOVChipkaart(odao.findByKaartNummer(35283)).size()+" producten");
+        System.out.println();
+
+        System.out.println("Verwijder het test product uit kaart 35283");
+        odao.findByKaartNummer(35283).removeProduct(p1);
+        System.out.println();
+
+        System.out.println("Geef alle producten van kaart 35283");
+        System.out.println(pdao.findByOVChipkaart(odao.findByKaartNummer(35283)));
+        System.out.println(pdao.findByOVChipkaart(odao.findByKaartNummer(35283)).size()+" producten");
+        System.out.println();
+
+        System.out.println("Verwijder het test product uit te de db");
+        System.out.print("Eerst " + producten.size() + " producten, na ProductDAO.delete() ");
         pdao.delete(p1);
         producten = pdao.findAll();
         System.out.println(producten.size() + " producten\n");

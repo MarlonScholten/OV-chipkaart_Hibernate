@@ -16,8 +16,9 @@ public class OVChipkaart {
     @ManyToOne
     @JoinColumn(name="reiziger_id")
     private Reiziger reiziger;
-    @JoinTable
     @ManyToMany
+    @JoinTable(name="ov_chipkaart_product", joinColumns = @JoinColumn(name="kaart_nummer"),
+            inverseJoinColumns = @JoinColumn(name="product_nummer"))
     private List<Product> producten = new ArrayList<>();
 
     public OVChipkaart(int kaart_nummer, Date geldig_tot, int klasse, double saldo, Reiziger reiziger) {
@@ -86,7 +87,7 @@ public class OVChipkaart {
     }
 
     public boolean addProduct(Product product){
-        if(!producten.contains(product)){
+        if(!(producten.contains(product))){
             producten.add(product);
             return true;
         } else{

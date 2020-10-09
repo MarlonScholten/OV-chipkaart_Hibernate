@@ -56,9 +56,9 @@ public class ProductDAOHibernate implements ProductDAO {
 
     @Override
     public List<Product> findByOVChipkaart(OVChipkaart ovkaart) {
-        String hql = "SELECT a FROM Product a WHERE :ovchipkaart IN a.ovkaarten";
+        String hql = "SELECT a FROM Product a JOIN a.ovkaarten b WHERE b.kaart_nummer = :kaartnummer";
         Query query = session.createQuery(hql);
-        query.setParameter("ovchipkaart",ovkaart);
+        query.setParameter("kaartnummer",ovkaart.getKaart_nummer());
         return query.getResultList();
     }
 
