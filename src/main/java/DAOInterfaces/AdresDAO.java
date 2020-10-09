@@ -11,6 +11,6 @@ public interface AdresDAO {
     boolean delete(Adres adres);
     Adres findByReiziger(Reiziger reiziger);
     List<Adres> findAll();
-
     ReizigerDAO getRdao();
+    void setRdao(ReizigerDAO rdao);
 }

@@ -12,6 +12,6 @@ public interface OVChipkaartDAO {
     List<OVChipkaart> findByReiziger(Reiziger reiziger);
     OVChipkaart findByKaartNummer(int kaartnummer);
     List<OVChipkaart> findAll();
-
     ReizigerDAO getRdao();
+    void setRdao(ReizigerDAO rdao);
 }

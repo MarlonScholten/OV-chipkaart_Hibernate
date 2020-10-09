@@ -30,12 +30,28 @@ public class ReizigerDAOHibernate implements ReizigerDAO {
 
     @Override
     public boolean update(Reiziger reiziger) {
-        return false;
+        try{
+            session.beginTransaction();
+            session.saveOrUpdate(reiziger);
+            session.getTransaction().commit();
+            return true;
+        } catch(Exception sqlException){
+            System.err.println(sqlException.getMessage());
+            return false;
+        }
     }
 
     @Override
     public boolean delete(Reiziger reiziger) {
-        return false;
+        try{
+            session.beginTransaction();
+            session.delete(reiziger);
+            session.getTransaction().commit();
+            return true;
+        } catch(Exception sqlException){
+            System.err.println(sqlException.getMessage());
+            return false;
+        }
     }
 
     @Override

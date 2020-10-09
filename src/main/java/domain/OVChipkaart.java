@@ -16,6 +16,7 @@ public class OVChipkaart {
     @ManyToOne
     @JoinColumn(name="reiziger_id")
     private Reiziger reiziger;
+    @JoinTable
     @ManyToMany
     private List<Product> producten = new ArrayList<>();
 
